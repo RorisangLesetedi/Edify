@@ -1,0 +1,158 @@
+/* Main container */
+.container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Left side - Background image */
+.backgroundImage {
+  flex: 1;
+  background-image: url('/images/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: none; /* Hide on mobile by default */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(103, 58, 183, 0.8) 0%, rgba(156, 39, 176, 0.8) 100%);
+}
+
+/* Right side - Login form */
+.loginContainer {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  max-width: 100%;
+}
+
+.logoContainer {
+  margin-bottom: 2rem;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #673ab7;
+  text-align: center;
+}
+
+.welcomeText {
+  font-size: 1.75rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.subText {
+  color: #666;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.inputGroup {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 3rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: #f8f9fa;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #673ab7;
+  background-color: white;
+}
+
+.select {
+  appearance: none;
+  padding-right: 3rem;
+  cursor: pointer;
+}
+
+.dropdownIcon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #673ab7 0%, #9c27b0 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  margin-top: 1rem;
+}
+
+.loginButton:hover {
+  opacity: 0.9;
+}
+
+.registerText {
+  margin-top: 1.5rem;
+  color: #666;
+  text-align: center;
+}
+
+.registerLink {
+  color: #673ab7;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .backgroundImage {
+    display: block; /* Show on larger screens */
+  }
+  
+  .loginContainer {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 2rem 4rem;
+  }
+}
