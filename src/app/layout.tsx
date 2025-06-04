@@ -33,8 +33,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <body className="font-inter">
-        {children}
-      </body>
+      {children}
+</body>
     </html>
   );
 }

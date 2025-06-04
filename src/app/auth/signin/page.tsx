@@ -1,10 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 import SignInForm from '@/components/auth/SignInForm';
-import { supabase } from '@/lib/supabase/config';
+import { useRouter } from 'next/navigation';
+import { UserRole } from '@/lib/supabase/config';
 
 export default function SignInPage() {
+  const supabase = createClient();
   const router = useRouter();
 
   const handleSignIn = async ({ email, password }: { email: string; password: string }) => {
@@ -17,49 +19,39 @@ export default function SignInPage() {
       throw error;
     }
 
-    // Get user profile to determine role
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', data.user.id)
-      .single();
+    // Redirect based on user role after successful sign-in
+    if (data?.user?.id) {
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
 
-    // Redirect based on role
-    if (profile?.role) {
-      switch (profile.role) {
-        case 'admin':
+      if (profileError) {
+        console.error('Error fetching profile:', profileError);
+        // Optionally handle the error more gracefully for the user
+        return;
+      }
+
+      switch (profileData?.role) {
+        case UserRole.ADMIN:
           router.push('/dashboard/admin');
           break;
-        case 'tutor':
+        case UserRole.TUTOR:
           router.push('/dashboard/tutor');
           break;
-        case 'student':
+        case UserRole.STUDENT:
           router.push('/dashboard/student');
           break;
-        case 'parent':
+        case UserRole.PARENT:
           router.push('/dashboard/parent');
           break;
         default:
-          router.push('/dashboard');
+          router.push('/dashboard'); // Fallback to general dashboard
+          break;
       }
-    } else {
-      router.push('/dashboard');
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <SignInForm onSubmit={handleSignIn} />
-        </div>
-      </div>
-    </div>
-  );
+  return <SignInForm onSubmit={handleSignIn} />;
 } 
